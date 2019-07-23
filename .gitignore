@@ -1,0 +1,41 @@
+*.class
+*.log
+log/
+temp/
+
+# SBT
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# ScalaJs
+.js
+.jvm
+
+# Intellij IDEA
+.idea
+
+# Eclipse, Scala IDE
+.project
+.classpath
+.settings/
+.scala_dependencies
+.cache*
+
+# Mac OS specific
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+Icon
+Icon?
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
