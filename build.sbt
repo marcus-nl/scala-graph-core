@@ -5,7 +5,7 @@ name := "graph-core"
 organization := "org.scala-graph"
 version := "1.13.1-SNAPSHOT"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.0"
 
 scalacOptions ++= Seq(
   "-Yrangepos",

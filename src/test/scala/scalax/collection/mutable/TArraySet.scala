@@ -1,24 +1,19 @@
 package scalax.collection
 package mutable
 
-import collection.mutable.{Set => MutableSet}
-
-import edge.LkDiEdge, edge.WUnDiEdge, edge.Implicits._
-import immutable.SortedArraySet
-
 import org.scalatest.Matchers
 import org.scalatest.refspec.RefSpec
-import org.scalatest.junit.JUnitRunner
-import org.junit.runner.RunWith
+import scalax.collection.immutable.SortedArraySet
 
-@RunWith(classOf[JUnitRunner])
+import scala.collection.mutable.{Set => MutableSet}
+
 class TArraySetTest extends RefSpec with Matchers {
 
   implicit val hints = ArraySet.Hints(4, 4, 12, 100)
 
   private class LkDiEdgeGenerator {
     private var i           = 0
-    def draw: LkDiEdge[Int] = { i += 1; LkDiEdge(1, 2)(i) }
+    def draw: LkDiEdge[Int] = { i += 1; LkDiEdge(1, 2, i) }
   }
 
   private class WUnDiEdgeGenerator {
@@ -54,10 +49,10 @@ class TArraySetTest extends RefSpec with Matchers {
       val toAdd = hints.initialCapacity + 1
       val arr = ArraySet.emptyWithHints[LkDiEdge[Int]] ++=
         (for (i <- 1 to toAdd) yield edges.draw)
-      arr.compact
+      arr.compact()
       arr.capacity should be(toAdd)
-
     }
+
     def `may be configured to be represented solely by a HashSet` {
       val edges = new LkDiEdgeGenerator
       val arr   = ArraySet.emptyWithHints[LkDiEdge[Int]](ArraySet.Hints.HashOnly)
@@ -70,7 +65,7 @@ class TArraySetTest extends RefSpec with Matchers {
       arr += edges.draw
       check
 
-      arr.compact
+      arr.compact()
       check
     }
 
@@ -101,7 +96,7 @@ class TArraySetTest extends RefSpec with Matchers {
       filtered0.hints.initialCapacity should equal(arr.size)
 
       for (i <- 1 to hints.capacityIncrement) arr += edges.draw
-      val filteredEven = arr filter (_ % 2 == 0)
+      val filteredEven = arr filter (_.label % 2 == 0)
       filteredEven.hints.initialCapacity should equal(arr.size)
     }
 
@@ -141,10 +136,10 @@ class TArraySetTest extends RefSpec with Matchers {
 
         def edge = arr.drop(pos).head
         edge match {
-          case WUnDiEdge(n1, n2, w) =>
-            val newWeight = w + 1
-            val res       = arr.upsert(WUnDiEdge(n1, n2)(newWeight))
-            res should be(false) // updated
+          case WUnDiEdge(n1, n2) =>
+            val newWeight = edge.weight + 1
+            val inserted  = arr.upsert(WUnDiEdge(n1, n2)(newWeight))
+            inserted should be(false) // updated
             edge.weight should be(newWeight)
         }
         arr.size should be(toAdd)
@@ -159,4 +154,8 @@ class TArraySetTest extends RefSpec with Matchers {
       }
     }
   }
+
+  case class LkDiEdge[T](source: T, target: T, label: T)       // label is part of the key
+  case class WUnDiEdge[T](source: T, target: T)(val weight: T) // weight is not part of the key
+
 }
