@@ -4,9 +4,9 @@ digraph "classes-core.json" {
   "scalax.collection.Graph" [color="azure3"];
   "scalax.collection.GraphBase" [color="azure3"];
   "scalax.collection.GraphDegree" [color="azure3"];
-  "scalax.collection.GraphEdge" [color="yellow"];
+  "scalax.collection.GraphEdge" [color="orange"];
   "scalax.collection.GraphLike" [color="azure3"];
-  "scalax.collection.GraphPredef" [color="yellow"];
+  "scalax.collection.GraphPredef" [color="orange"];
   "scalax.collection.GraphTraversal" [color="azure3"];
   "scalax.collection.GraphTraversalImpl" [color="azure3"];
   "scalax.collection.State" [color="azure3"];
