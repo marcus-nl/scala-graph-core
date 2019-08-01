@@ -11,9 +11,9 @@ digraph "classes-core.json" {
   "scalax.collection.GraphTraversalImpl" [color="azure3"];
   "scalax.collection.State" [color="azure3"];
   "scalax.collection.TraverserImpl" [color="azure3"];
-  "scalax.collection.config.AdjacencyListArrayConfig" [color="azure3"];
-  "scalax.collection.config.CoreConfig" [color="azure3"];
-  "scalax.collection.config.GraphConfig" [color="azure3"];
+  "scalax.collection.config.AdjacencyListArrayConfig" [color="green"];
+  "scalax.collection.config.CoreConfig" [color="green"];
+  "scalax.collection.config.GraphConfig" [color="green"];
   "scalax.collection.edge.CBase" [color="azure3"];
   "scalax.collection.edge.Implicits" [color="azure3"];
   "scalax.collection.edge.LBase" [color="azure3"];
@@ -73,7 +73,7 @@ digraph "classes-core.json" {
   "scalax.collection.immutable.AdjacencyListBase" [color="azure3"];
   "scalax.collection.immutable.AdjacencyListGraph" [color="azure3"];
   "scalax.collection.immutable.DefaultGraphImpl" [color="azure3"];
-  "scalax.collection.immutable.EqSet" [color="azure3"];
+  "scalax.collection.immutable.EqSet" [color="yellow"];
   "scalax.collection.immutable.Graph" [color="azure3"];
   "scalax.collection.immutable.SortedArraySet" [color="green"];
   "scalax.collection.interfaces.ExtSetMethods" [color="green"];

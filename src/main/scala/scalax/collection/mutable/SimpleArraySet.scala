@@ -31,12 +31,12 @@ final class SimpleArraySet[A](override val hints: ArraySet.Hints)
   private var arr: Array[A]                                = _
   private var hashSet: ExtHashSet[A]                       = _
 
-  private def initialize {
+  private def initialize() {
     val capacity = hints.nextCapacity(0)
     if (capacity == 0) hashSet = ExtHashSet.empty[A]
     else arr = new Array[AnyRef](capacity).asInstanceOf[Array[A]]
   }
-  initialize
+  initialize()
 
   def capacity: Int                   = if (isHash) 0 else arr.length
   @inline private def isHash: Boolean = arr eq null
