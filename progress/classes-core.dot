@@ -86,7 +86,7 @@ digraph "classes-core.json" {
   "scalax.collection.mutable.EqHashMap" [color="azure3"];
   "scalax.collection.mutable.EqHashSet" [color="azure3"];
   "scalax.collection.mutable.ExtBitSet" [color="azure3"];
-  "scalax.collection.mutable.ExtHashSet" [color="red"];
+  "scalax.collection.mutable.ExtHashSet" [color="yellow"];
   "scalax.collection.mutable.Graph" [color="azure3"];
   "scalax.collection.mutable.GraphBuilder" [color="azure3"];
   "scalax.collection.mutable.GraphLike" [color="azure3"];

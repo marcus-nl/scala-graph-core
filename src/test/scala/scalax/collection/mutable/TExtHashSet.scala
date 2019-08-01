@@ -1,33 +1,38 @@
 package scalax.collection
 package mutable
 
-import GraphEdge._
-
+import scala.collection.mutable
 import org.scalatest.Matchers
 import org.scalatest.refspec.RefSpec
-import org.scalatest.junit.JUnitRunner
-import org.junit.runner.RunWith
 
-@RunWith(classOf[JUnitRunner])
 class TExtHashSetTest extends RefSpec with Matchers {
-
   import Data._
   val set                    = ExtHashSet(outerElemsOfDi_1: _*)
   val outerEdge: DiEdge[Int] = outerElemsOfDi_1.head
-  val graph                  = Graph(outerElemsOfDi_1: _*)
-  val innerEdge              = graph get outerEdge
+  val innerEdge              = new Wrapper(outerEdge)
 
+  object `Basic functionality works properly` {
+    def `get size` = {
+      set.size should be (6)
+    }
+    def `add element` = {
+      val copy = set.clone
+      copy += 3 ~> 4
+      copy.size should be (7)
+      copy should contain (3 ~> 4)
+    }
+  }
   object `Hash set extensions work properly` {
     def `find entry` {
       /* `inner.edge == outer` returns the expected result because Graph#InnerEdge.equal
        * is aware of the inner edge structure. The opposite will be false since, as a rule,
        * outer object types will not be Graph-aware with regard to their equal.
        */
-      def eq(outer: DiEdge[Int], inner: graph.EdgeT) = inner.edge == outer
+      def eq(outer: DiEdge[Int], wrapper: Wrapper[DiEdge[Int]]) = wrapper.edge == outer
       set.findElem(innerEdge, eq) should be(outerEdge)
     }
     def `draw element` {
-      val randomElems = collection.mutable.Set.empty[DiEdge[Int]]
+      val randomElems = mutable.Set.empty[DiEdge[Int]]
       val r           = new util.Random
       for (i <- 1 to (set.size * 32))
         randomElems += set draw r
@@ -39,6 +44,7 @@ class TExtHashSetTest extends RefSpec with Matchers {
       val elems = set.hashCodeIterator(outerEdge.hashCode).toList
       elems should have size (1)
       elems.head should be(outerEdge)
+      elems should contain only (outerEdge)
     }
     def `iterate over duplicate hashCodes` {
       case class C(i: Int, j: Int) {
@@ -51,4 +57,21 @@ class TExtHashSetTest extends RefSpec with Matchers {
       }
     }
   }
+}
+
+
+object Data {
+  // WDi-1.jpg without weights
+  val outerElemsOfDi_1 = List(1 ~> 2, 2 ~> 3, 4 ~> 3, 3 ~> 5, 1 ~> 5, 1 ~> 3)
+
+  implicit final class EdgeCons[N](private val n1: N) extends AnyVal {
+    @inline def ~>(n2: N) = DiEdge[N](n1, n2)
+  }
+}
+
+case class UnDiEdge[N](source: N, target: N)
+case class DiEdge[N](source: N, target: N)
+
+class Wrapper[T](val edge: T) {
+  override def hashCode = edge.##
 }
