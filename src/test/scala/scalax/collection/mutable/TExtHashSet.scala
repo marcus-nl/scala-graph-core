@@ -4,24 +4,14 @@ package mutable
 import scala.collection.mutable
 import org.scalatest.Matchers
 import org.scalatest.refspec.RefSpec
+import scalax.collection.mutable.HashSetEnrichments.ExtHashSet
 
 class TExtHashSetTest extends RefSpec with Matchers {
   import Data._
-  val set                    = ExtHashSet(outerElemsOfDi_1: _*)
+  val set                    = mutable.HashSet(outerElemsOfDi_1: _*)
   val outerEdge: DiEdge[Int] = outerElemsOfDi_1.head
   val innerEdge              = new Wrapper(outerEdge)
 
-  object `Basic functionality works properly` {
-    def `get size` = {
-      set.size should be (6)
-    }
-    def `add element` = {
-      val copy = set.clone
-      copy += 3 ~> 4
-      copy.size should be (7)
-      copy should contain (3 ~> 4)
-    }
-  }
   object `Hash set extensions work properly` {
     def `find entry` {
       /* `inner.edge == outer` returns the expected result because Graph#InnerEdge.equal
@@ -50,7 +40,7 @@ class TExtHashSetTest extends RefSpec with Matchers {
       case class C(i: Int, j: Int) {
         override def hashCode = i.##
       }
-      val multi = ExtHashSet(C(1, 0), C(1, 1), C(2, 2), C(1, 3), C(2, 0))
+      val multi = mutable.HashSet(C(1, 0), C(1, 1), C(2, 2), C(1, 3), C(2, 0))
       for (i <- 0 to 2) {
         val elems = multi.hashCodeIterator(i.##).toList
         elems should have size (multi count (_.i == i))

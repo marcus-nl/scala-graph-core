@@ -5,8 +5,8 @@ import scala.collection.{IterableFactory, IterableFactoryDefaults, SortedSet, St
 import scala.collection.mutable.GrowableBuilder
 import scala.compat.Platform.arraycopy
 import scala.util.Random
-
 import immutable.SortedArraySet
+import scalax.collection.mutable.HashSetEnrichments.ExtHashSet
 
 /** A basic [[ArraySet]] implementation suitable for efficient add operations.
   * Element removal could be optimized by another implementation.
@@ -29,11 +29,11 @@ final class SimpleArraySet[A](override val hints: ArraySet.Hints)
   override def clone                                       = (newNonCheckingBuilder ++= this).result
   private var nextFree: Int                                = 0
   private var arr: Array[A]                                = _
-  private var hashSet: ExtHashSet[A]                       = _
+  private var hashSet: mutable.HashSet[A]                  = _
 
   private def initialize() {
     val capacity = hints.nextCapacity(0)
-    if (capacity == 0) hashSet = ExtHashSet.empty[A]
+    if (capacity == 0) hashSet = mutable.HashSet.empty[A]
     else arr = new Array[AnyRef](capacity).asInstanceOf[Array[A]]
   }
   initialize()
@@ -172,7 +172,7 @@ final class SimpleArraySet[A](override val hints: ArraySet.Hints)
   protected def resizedToHash: Boolean = {
     val newCapacity = hints.nextCapacity(capacity)
     if (newCapacity == 0) {
-      hashSet = ExtHashSet.empty[A]
+      hashSet = mutable.HashSet.empty[A]
       hashSet sizeHint capacity
       hashSet ++= iterator
       arr = null
@@ -224,11 +224,9 @@ final class SimpleArraySet[A](override val hints: ArraySet.Hints)
     }
 
   def sorted(implicit ord: Ordering[A]): SortedSet[A] =
-    if (isHash)
-      hashSet match {
-        case sorted: SortedSet[A] => sorted
-        case unsorted             => SortedSet[A](hashSet.toList: _*)
-      } else {
+    if (isHash) {
+      SortedSet.from(hashSet)
+    } else {
       val newArr: Array[AnyRef] = new Array(nextFree)
       arraycopy(arr, 0, newArr, 0, nextFree)
       new SortedArraySet(newArr.asInstanceOf[Array[A]])
