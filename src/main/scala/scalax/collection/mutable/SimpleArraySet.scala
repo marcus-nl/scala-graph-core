@@ -6,7 +6,7 @@ import scala.collection.mutable.GrowableBuilder
 import scala.compat.Platform.arraycopy
 import scala.util.Random
 import immutable.SortedArraySet
-import scalax.collection.mutable.HashSetEnrichments.ExtHashSet
+import scalax.collection.mutable.HashSet.Enrichments
 
 /** A basic [[ArraySet]] implementation suitable for efficient add operations.
   * Element removal could be optimized by another implementation.

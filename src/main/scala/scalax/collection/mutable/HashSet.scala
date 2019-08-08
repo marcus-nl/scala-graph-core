@@ -1,11 +1,11 @@
 package scalax.collection.mutable
 
 import scala.collection.{FilteredSet, HashTableAccess}
-import scala.collection.mutable.HashSet
+import scala.collection.mutable.{HashSet => MHashSet}
 import scala.util.Random
 
-protected[collection] object HashSetEnrichments {
-  implicit class ExtHashSet[A](val hashSet: HashSet[A]) extends AnyVal {
+protected[collection] object HashSet {
+  implicit class Enrichments[A](val hashSet: MHashSet[A]) extends AnyVal {
     def draw(random: Random): A = {
       val drawn = random.nextInt(hashSet.size) // IllegalArgumentException if len == 0
       hashSet.iterator.drop(drawn).next()

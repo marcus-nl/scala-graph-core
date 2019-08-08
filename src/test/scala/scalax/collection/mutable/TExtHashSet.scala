@@ -4,7 +4,7 @@ package mutable
 import scala.collection.mutable
 import org.scalatest.Matchers
 import org.scalatest.refspec.RefSpec
-import scalax.collection.mutable.HashSetEnrichments.ExtHashSet
+import scalax.collection.mutable.HashSet.Enrichments
 
 class TExtHashSetTest extends RefSpec with Matchers {
   import Data._
