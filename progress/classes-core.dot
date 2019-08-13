@@ -1,16 +1,16 @@
 digraph "classes-core.json" {
   concentrate=true;
   node [style=filled];
-  "scalax.collection.Graph" [color="azure3"];
+  "scalax.collection.Graph" [color="orange"];
   "scalax.collection.GraphBase" [color="orange"];
-  "scalax.collection.GraphDegree" [color="azure3"];
+  "scalax.collection.GraphDegree" [color="green"];
   "scalax.collection.GraphEdge" [color="yellow"];
-  "scalax.collection.GraphLike" [color="azure3"];
+  "scalax.collection.GraphLike" [color="orange"];
   "scalax.collection.GraphPredef" [color="orange"];
-  "scalax.collection.GraphTraversal" [color="azure3"];
-  "scalax.collection.GraphTraversalImpl" [color="azure3"];
-  "scalax.collection.State" [color="orange"];
-  "scalax.collection.TraverserImpl" [color="azure3"];
+  "scalax.collection.GraphTraversal" [color="orange"];
+  "scalax.collection.GraphTraversalImpl" [color="orange"];
+  "scalax.collection.State" [color="green"];
+  "scalax.collection.TraverserImpl" [color="orange"];
   "scalax.collection.config.AdjacencyListArrayConfig" [color="green"];
   "scalax.collection.config.CoreConfig" [color="green"];
   "scalax.collection.config.GraphConfig" [color="green"];
@@ -65,8 +65,8 @@ digraph "classes-core.json" {
   "scalax.collection.generator.parameters.NodeDegreeRange" [color="azure3"];
   "scalax.collection.generator.parameters.RandomRange" [color="azure3"];
   "scalax.collection.generic.AnyOrdering" [color="green"];
-  "scalax.collection.generic.GraphCompanion" [color="azure3"];
-  "scalax.collection.generic.GraphCoreCompanion" [color="azure3"];
+  "scalax.collection.generic.GraphCompanion" [color="orange"];
+  "scalax.collection.generic.GraphCoreCompanion" [color="orange"];
   "scalax.collection.generic.GroupIterator" [color="green"];
   "scalax.collection.generic.ImmutableGraphCompanion" [color="azure3"];
   "scalax.collection.generic.MutableGraphCompanion" [color="azure3"];

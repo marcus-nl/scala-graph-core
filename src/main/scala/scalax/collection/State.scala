@@ -44,7 +44,7 @@ protected trait State[N, E[X] <: EdgeLikeIn[X]] {
   protected def nextHandle: Handle = monitor.synchronized {
     def clearNodes(hasDirtyExt: Boolean) {
       clearNodeStates(dirty.flags, if (hasDirtyExt) dirty.flagsExt else null)
-      dirty.flags = 0
+      dirty.flags = 0L
       if (hasDirtyExt) dirty.flagsExt.clear
     }
     val free         = ~(inUse.flags | dirty.flags)
@@ -66,7 +66,7 @@ protected trait State[N, E[X] <: EdgeLikeIn[X]] {
             clearNodes(true)
             handle
           } else { // we expand flagsExt
-            val handle = new Handle(inUse.flagsExt.nrWords, 1)
+            val handle = new Handle(inUse.flagsExt.nrWords, 1L)
             handle
           }
         }
@@ -105,7 +105,7 @@ protected trait State[N, E[X] <: EdgeLikeIn[X]] {
   }
 
   trait InnerNodeState {
-    protected[State] var flags: FlagWord     = 0
+    protected[State] var flags: FlagWord     = 0L
     protected[State] var flagsExt: FlagWords = null
     @inline final protected def withFlagsExt[T](block: (ExtBitSet) => T): T =
       block {
@@ -174,10 +174,10 @@ object State {
   /** state accessor with respect to a given traversal. */
   class Handle(val index: Int, val mask: FlagWord)
   val singleWord  = -1
-  def emptyHandle = new Handle(singleWord, 0)
+  def emptyHandle = new Handle(singleWord, 0L)
   def initFlagSet = new ExtBitSet
 
-  final protected class FlagStore(var flags: FlagWord = 0, var flagsExt: ExtBitSet = initFlagSet) extends Serializable {
+  final protected class FlagStore(var flags: FlagWord = 0L, var flagsExt: ExtBitSet = initFlagSet) extends Serializable {
 
     /** Whether `store` is set with respect to `handle`. */
     def apply(handle: Handle): Boolean =
