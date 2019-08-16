@@ -2,7 +2,7 @@ digraph "classes-core.json" {
   concentrate=true;
   node [style=filled];
   "scalax.collection.Graph" [color="orange"];
-  "scalax.collection.GraphBase" [color="orange"];
+  "scalax.collection.GraphBase" [color="yellow"];
   "scalax.collection.GraphDegree" [color="green"];
   "scalax.collection.GraphEdge" [color="yellow"];
   "scalax.collection.GraphLike" [color="orange"];

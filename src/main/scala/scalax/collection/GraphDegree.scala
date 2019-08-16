@@ -93,8 +93,8 @@ trait GraphDegree[N, E[X] <: EdgeLikeIn[X]] { this: GraphBase[N, E] =>
     */
   def degreeSeq(implicit nodeDegree: DegreeFunction = Degree, degreeFilter: Int => Boolean = AnyDegree): Seq[Int] = {
     val v = nodes.toList.view map nodeDegree sorted IntReverseOrdering
-    if (degreeFilter == AnyDegree) v
-    else v filter degreeFilter
+    if (degreeFilter == AnyDegree) v.toSeq
+    else (v filter degreeFilter).toSeq
   }
 
   /** The degree set of this graph, that is the decreasing
