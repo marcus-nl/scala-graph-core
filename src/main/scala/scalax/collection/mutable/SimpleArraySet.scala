@@ -1,12 +1,11 @@
 package scalax.collection
 package mutable
 
-import scala.collection.{IterableFactory, IterableFactoryDefaults, SortedSet, StrictOptimizedIterableOps, mutable}
-import scala.collection.mutable.GrowableBuilder
+import scala.collection.{IterableFactory, IterableFactoryDefaults, SortedSet, StrictOptimizedIterableOps}
+import scala.collection.mutable.{ExtHashSet,GrowableBuilder}
 import scala.compat.Platform.arraycopy
 import scala.util.Random
 import immutable.SortedArraySet
-import scalax.collection.mutable.HashSet.Enrichments
 
 /** A basic [[ArraySet]] implementation suitable for efficient add operations.
   * Element removal could be optimized by another implementation.
@@ -29,11 +28,11 @@ final class SimpleArraySet[A](override val hints: ArraySet.Hints)
   override def clone                                       = (newNonCheckingBuilder ++= this).result
   private var nextFree: Int                                = 0
   private var arr: Array[A]                                = _
-  private var hashSet: mutable.HashSet[A]                  = _
+  private var hashSet: ExtHashSet[A]                       = _
 
   private def initialize() {
     val capacity = hints.nextCapacity(0)
-    if (capacity == 0) hashSet = mutable.HashSet.empty[A]
+    if (capacity == 0) hashSet = ExtHashSet.empty[A]
     else arr = new Array[AnyRef](capacity).asInstanceOf[Array[A]]
   }
   initialize()
@@ -172,7 +171,7 @@ final class SimpleArraySet[A](override val hints: ArraySet.Hints)
   protected def resizedToHash: Boolean = {
     val newCapacity = hints.nextCapacity(capacity)
     if (newCapacity == 0) {
-      hashSet = mutable.HashSet.empty[A]
+      hashSet = ExtHashSet.empty[A]
       hashSet sizeHint capacity
       hashSet ++= iterator
       arr = null
