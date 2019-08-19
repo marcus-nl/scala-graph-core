@@ -17,7 +17,7 @@ import GraphPredef.EdgeLikeIn
   *         degree functions are `InDegree` and `OutDegree`.
   * @define DEGREEFILTER selects nodes to be included by their degree.
   */
-trait GraphDegree[N, E[X] <: EdgeLikeIn[X]] { this: GraphBase[N, E] =>
+trait GraphDegree[N, E[+X] <: EdgeLikeIn[X]] { this: GraphBase[N, E] =>
 
   /** Decreasing ordering of nodes with respect to their degree.
     */

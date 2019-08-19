@@ -29,7 +29,7 @@ import interfaces.ExtSetMethods
   *
   * @author Peter Empen
   */
-trait GraphBase[N, E[X] <: EdgeLikeIn[X]] extends Serializable { selfGraph =>
+trait GraphBase[N, E[+X] <: EdgeLikeIn[X]] extends Serializable { selfGraph =>
 
   /** Populates this graph with `nodes` and `edges`.
     *

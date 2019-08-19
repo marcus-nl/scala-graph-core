@@ -6,7 +6,7 @@ digraph "classes-core.json" {
   "scalax.collection.GraphDegree" [color="green"];
   "scalax.collection.GraphEdge" [color="yellow"];
   "scalax.collection.GraphLike" [color="orange"];
-  "scalax.collection.GraphPredef" [color="orange"];
+  "scalax.collection.GraphPredef" [color="yellow"];
   "scalax.collection.GraphTraversal" [color="orange"];
   "scalax.collection.GraphTraversalImpl" [color="orange"];
   "scalax.collection.State" [color="green"];

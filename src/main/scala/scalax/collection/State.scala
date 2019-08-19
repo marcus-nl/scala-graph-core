@@ -14,7 +14,7 @@ import mutable.ExtBitSet
   *
   *  @author Peter Empen
   */
-protected trait State[N, E[X] <: EdgeLikeIn[X]] {
+protected trait State[N, E[+X] <: EdgeLikeIn[X]] {
   this: GraphTraversalImpl[N, E] =>
 
   import State._
@@ -198,7 +198,7 @@ object State {
   }
 
   /** Dumps the state flags of a `node`. */
-  def dump[N, E[X] <: EdgeLikeIn[X]](node: Graph[N, E]#NodeT): ExtBitSet =
+  def dump[N, E[+X] <: EdgeLikeIn[X]](node: Graph[N, E]#NodeT): ExtBitSet =
     node.containingGraph match {
       case g: State[_, _] =>
         node match {
@@ -212,7 +212,7 @@ object State {
   }
 
   /** Dumps the state flags of a `graph`. */
-  def dump[N, E[X] <: EdgeLikeIn[X]](graph: Graph[N, E]): GraphDump = graph match {
+  def dump[N, E[+X] <: EdgeLikeIn[X]](graph: Graph[N, E]): GraphDump = graph match {
     case g: State[_, _] => new GraphDump(g.dumpInUse, g.dumpDirty)
   }
 }
