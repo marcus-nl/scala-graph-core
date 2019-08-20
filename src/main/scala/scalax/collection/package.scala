@@ -18,10 +18,6 @@ package object collection {
     */
   type ExtSet[A] = scala.collection.Set[A] with interfaces.ExtSetMethods[A]
 
-  /** Same as `private[scala] scala.collection.AbstractIterator`.
-    */
-  abstract private[scalax] class AbstractIterator[+A] extends Iterator[A]
-
   protected[scalax] type AnySet[A] = scala.collection.Set[A]
 
   protected[scalax] type MSet[A] = scala.collection.mutable.Set[A]

@@ -2,6 +2,7 @@ package scalax.collection
 
 import language.higherKinds
 import scala.annotation.{switch, tailrec}
+import scala.collection.AbstractIterator
 import GraphPredef.OuterEdge
 
 /** Container for basic edge types to be used in the context of `Graph`.

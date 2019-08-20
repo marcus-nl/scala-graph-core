@@ -2,7 +2,7 @@ package scalax.collection
 
 import language.{higherKinds, implicitConversions}
 
-import scala.collection.{AbstractIterable, SeqFacade}
+import scala.collection.{AbstractIterable, AbstractIterator}
 import GraphEdge.{DiEdgeLike, DiHyperEdgeLike, EdgeCopy, EdgeLike}
 
 /** This object serves as a container for several `Graph`-related definitions like
