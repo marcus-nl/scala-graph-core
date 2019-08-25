@@ -70,7 +70,7 @@ digraph "classes-core.json" {
   "scalax.collection.generic.GroupIterator" [color="green"];
   "scalax.collection.generic.ImmutableGraphCompanion" [color="azure3"];
   "scalax.collection.generic.MutableGraphCompanion" [color="azure3"];
-  "scalax.collection.immutable.AdjacencyListBase" [color="orange"];
+  "scalax.collection.immutable.AdjacencyListBase" [color="yellow"];
   "scalax.collection.immutable.AdjacencyListGraph" [color="azure3"];
   "scalax.collection.immutable.DefaultGraphImpl" [color="azure3"];
   "scalax.collection.immutable.EqSet" [color="green"];
