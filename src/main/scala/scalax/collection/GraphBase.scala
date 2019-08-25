@@ -2,12 +2,11 @@ package scalax.collection
 
 import scala.language.{higherKinds, implicitConversions}
 import scala.util.Random
+import scala.collection.{ExtSetMethods, FilterableSet}
 
-import scala.collection.FilterableSet
 import GraphPredef.{EdgeLikeIn, InnerEdgeParam, InnerNodeParam, OuterEdge}
 import GraphEdge.{DiHyperEdgeLike, EdgeLike}
 import generic.AnyOrdering
-import interfaces.ExtSetMethods
 
 /** Base template trait for graphs.
   *

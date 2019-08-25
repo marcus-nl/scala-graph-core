@@ -15,9 +15,8 @@
 package scala.collection
 package mutable
 
-import scalax.collection.interfaces.ExtSetMethods
-
 import scala.annotation.tailrec
+import scala.collection.ExtSetMethods
 import scala.collection.Stepper.EfficientSplit
 import scala.collection.generic.DefaultSerializationProxy
 import scala.util.Random
@@ -426,7 +425,7 @@ final class ExtHashSet[A](initialCapacity: Int, loadFactor: Double)
     keys(random.nextInt(keys.knownSize))
   }
 
-  private[this] def withBucket[B](hashCode: Int)(empty: B)(body: Node[A] => B): B =
+  private[this] def withBucket[B](hashCode: Int)(empty: => B)(body: Node[A] => B): B =
     table(index(improveHash(hashCode))) match {
       case null => empty
       case node => body(node)

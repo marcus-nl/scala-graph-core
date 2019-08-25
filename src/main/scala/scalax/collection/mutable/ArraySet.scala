@@ -1,10 +1,8 @@
 package scalax.collection
 package mutable
 
-import scalax.collection.interfaces.ExtSetMethods
-
 import scala.collection.mutable.{AbstractSet, GrowableBuilder, SetOps}
-import scala.collection.{IterableFactory, IterableFactoryDefaults, SortedSet}
+import scala.collection.{ExtSetMethods, IterableFactory, IterableFactoryDefaults, SortedSet}
 
 /** A growable and compactable `mutable.Set` implementation based on `Array` and `mutable.Set`.
   *  It switches to the latter representation as soon as a given threshold for the number of

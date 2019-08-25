@@ -76,7 +76,7 @@ digraph "classes-core.json" {
   "scalax.collection.immutable.EqSet" [color="green"];
   "scalax.collection.immutable.Graph" [color="azure3"];
   "scalax.collection.immutable.SortedArraySet" [color="green"];
-  "scalax.collection.interfaces.ExtSetMethods" [color="green"];
+  "scala.collection.ExtSetMethods" [color="green"];
   "scalax.collection.mutable.AdjacencyListGraph" [color="azure3"];
   "scalax.collection.mutable.ArraySet" [color="green"];
   "scalax.collection.mutable.BuilderImpl" [color="azure3"];
@@ -101,7 +101,7 @@ digraph "classes-core.json" {
   "scalax.collection.GraphBase" -> "scalax.collection.GraphPredef";
   "scalax.collection.GraphBase" -> "scalax.collection.generic.AnyOrdering";
   "scalax.collection.GraphBase" -> "scalax.collection.immutable.EqSet";
-  "scalax.collection.GraphBase" -> "scalax.collection.interfaces.ExtSetMethods";
+  "scalax.collection.GraphBase" -> "scala.collection.ExtSetMethods";
   "scalax.collection.GraphBase" -> "scalax.collection.mutable.EqHashMap";
   "scalax.collection.GraphDegree" -> "scalax.collection.GraphBase";
   "scalax.collection.GraphDegree" -> "scalax.collection.GraphPredef";
@@ -434,7 +434,7 @@ digraph "classes-core.json" {
   "scalax.collection.immutable.AdjacencyListBase" -> "scalax.collection.config.GraphConfig";
   "scalax.collection.immutable.AdjacencyListBase" -> "scalax.collection.generic.GroupIterator";
   "scalax.collection.immutable.AdjacencyListBase" -> "scalax.collection.immutable.EqSet";
-  "scalax.collection.immutable.AdjacencyListBase" -> "scalax.collection.interfaces.ExtSetMethods";
+  "scalax.collection.immutable.AdjacencyListBase" -> "scala.collection.ExtSetMethods";
   "scalax.collection.immutable.AdjacencyListBase" -> "scalax.collection.mutable.ArraySet";
   "scalax.collection.immutable.AdjacencyListBase" -> "scalax.collection.mutable.EqHashMap";
   "scalax.collection.immutable.AdjacencyListBase" -> "scalax.collection.mutable.EqHashSet";
@@ -481,7 +481,7 @@ digraph "classes-core.json" {
   "scalax.collection.mutable.AdjacencyListGraph" -> "scalax.collection.mutable.ExtHashSet";
   "scalax.collection.mutable.AdjacencyListGraph" -> "scalax.collection.mutable.Graph";
   "scalax.collection.mutable.AdjacencyListGraph" -> "scalax.collection.mutable.GraphLike";
-  "scalax.collection.mutable.ArraySet" -> "scalax.collection.interfaces.ExtSetMethods";
+  "scalax.collection.mutable.ArraySet" -> "scala.collection.ExtSetMethods";
   "scalax.collection.mutable.ArraySet" -> "scalax.collection.mutable.SimpleArraySet";
   "scalax.collection.mutable.BuilderImpl" -> "scalax.collection.Graph";
   "scalax.collection.mutable.BuilderImpl" -> "scalax.collection.GraphBase";
@@ -515,7 +515,7 @@ digraph "classes-core.json" {
   "scalax.collection.mutable.EqHashMap" -> "scalax.collection.mutable.EqHash";
   "scalax.collection.mutable.EqHashSet" -> "scalax.collection.mutable.EqHash";
   "scalax.collection.mutable.ExtBitSet" -> "scalax.collection.State";
-  "scalax.collection.mutable.ExtHashSet" -> "scalax.collection.interfaces.ExtSetMethods";
+  "scalax.collection.mutable.ExtHashSet" -> "scala.collection.ExtSetMethods";
   "scalax.collection.mutable.Graph" -> "scalax.collection.Graph";
   "scalax.collection.mutable.Graph" -> "scalax.collection.GraphEdge";
   "scalax.collection.mutable.Graph" -> "scalax.collection.GraphLike";

@@ -1,5 +1,7 @@
 package scalax
 
+import scala.collection.ExtSetMethods
+
 /** Contains the base traits and objects needed to use '''Graph for Scala'''.
   *
   * See also the
@@ -16,7 +18,7 @@ package object collection {
 
   /** [[scala.collection.Set]] extended by some useful methods in the context of Graph.
     */
-  type ExtSet[A] = scala.collection.Set[A] with interfaces.ExtSetMethods[A]
+  type ExtSet[A] = scala.collection.Set[A] with ExtSetMethods[A]
 
   protected[scalax] type AnySet[A] = scala.collection.Set[A]
 

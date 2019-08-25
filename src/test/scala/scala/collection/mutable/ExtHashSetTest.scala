@@ -27,6 +27,29 @@ class ExtHashSetTest extends RefSpec with Matchers {
       s.findElem(C(3), (i: C, j: C) => i.value == j.value - 1) should === (C(2))
     }
 
+    def `upsert elements`: Unit = {
+      class MutableElem(val a: Int, var b: Int) {
+        override def hashCode(): Int = a.##
+        override def equals(other: Any): Boolean = other match {
+          case that: MutableElem => a == that.a
+          case _                 => false
+        }
+        override def toString: String = s"M($a, $b)"
+      }
+
+      val elem = new MutableElem(1, 0)
+      val set = ExtHashSet(elem)
+
+      val mutation = new MutableElem(1, 1)
+      mutation should ===(elem)
+
+      set.upsert(mutation) should be(false)
+      set should (have size 1 and contain(mutation))
+
+      set.upsert(new MutableElem(2, 0)) should be(true)
+      set should have size 2
+    }
+
     def `iterate over hashCodes` {
       case class C(value: Int) {
         override def hashCode(): Int = value
