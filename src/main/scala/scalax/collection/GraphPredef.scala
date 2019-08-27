@@ -227,7 +227,7 @@ object GraphPredef {
     (out: Param[NI, EI]) =>
       out match {
         case n: InnerNodeParam[NI] => pred(n.value)
-        case e: InnerEdgeParam[NI, EI, _, _] =>
+        case e: InnerEdgeParam[NI, EI, _, _] => // TODO abstract type NI in type pattern is unchecked since it is eliminated by erasure
           e.asInstanceOf[InnerEdgeParam[NI, EI, NO, EO]].edge forall (n => pred(n.value))
         case _ => false
     }

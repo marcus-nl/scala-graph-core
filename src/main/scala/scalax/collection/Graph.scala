@@ -159,6 +159,7 @@ trait GraphLike[N,
   type NodeSetT <: NodeSet
   trait NodeSet extends super.NodeSet {
     protected def copy: NodeSetT
+
     final override def -(node: NodeT): NodeSetT =
       if (this contains node) { val c = copy; c minus node; c } else this.asInstanceOf[NodeSetT]
 

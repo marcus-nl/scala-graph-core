@@ -3,11 +3,12 @@ package generic
 
 import language.higherKinds
 import collection.mutable.Builder
+import scala.collection.generic.CanBuildFrom
 import scala.reflect.ClassTag
 
 import GraphPredef.{EdgeLikeIn, Param}
 import config.{CoreConfig, GraphConfig}
-//import mutable.GraphBuilder
+import mutable.GraphBuilder
 
 /** Methods common to `Graph` companion objects in the core module.
   *
@@ -74,7 +75,7 @@ trait GraphCompanion[+CC[N, E[+X] <: EdgeLikeIn[X]] <: Graph[N, E] with GraphLik
     * @return  A graph that contains the results of `nr` evaluations of `elem`.
     */
   def fill[N, E[+X] <: EdgeLikeIn[X]](nr: Int)(elem: => Param[N, E])(implicit edgeT: ClassTag[E[N]],
-                                                                     config: Config): CC[N, E] = ??? /*{
+                                                                     config: Config): CC[N, E] = {
     val gB = newBuilder[N, E].asInstanceOf[GraphBuilder[N, E, CC]]
     gB.sizeHint(nr)
     var i = 0
@@ -83,10 +84,18 @@ trait GraphCompanion[+CC[N, E[+X] <: EdgeLikeIn[X]] <: Graph[N, E] with GraphLik
       i += 1
     }
     gB.result
-  }*/
+  }
   def newBuilder[N, E[+X] <: EdgeLikeIn[X]](implicit edgeT: ClassTag[E[N]],
                                            config: Config): Builder[Param[N, E], CC[N, E]] =
-    ??? //new GraphBuilder[N, E, CC](this)
+    new GraphBuilder[N, E, CC](this)
+  /* TODO build from
+  class GraphCanBuildFrom[N, E[+X] <: EdgeLikeIn[X]](implicit edgeT: ClassTag[E[N]], config: Config)
+      extends CanBuildFrom[Coll, Param[N, E], CC[N, E]] {
+//    def apply(from: Coll) = newBuilder[N, E]
+//    def apply()           = newBuilder[N, E]
+    override def fromSpecific(from: Coll)(it: IterableOnce[Param[N, E]]) = ???
+    override def newBuilder(from: Coll) = ???
+  } */
 }
 
 /** `GraphCompanion` extended to work with `CoreConfig`. */
@@ -105,14 +114,13 @@ trait GraphCoreCompanion[+CC[N, E[+X] <: EdgeLikeIn[X]] <: Graph[N, E] with Grap
                                                                               config: Config = defaultConfig): CC[N, E] =
     super.fill(nr)(elem)(edgeT, config)
 }
-/*
-trait ImmutableGraphCompanion[+CC[N, E[X] <: EdgeLikeIn[X]] <: immutable.Graph[N, E] with GraphLike[N, E, CC]]
+
+trait ImmutableGraphCompanion[+CC[N, E[+X] <: EdgeLikeIn[X]] <: immutable.Graph[N, E] with GraphLike[N, E, CC]]
     extends GraphCoreCompanion[CC]
 
-trait MutableGraphCompanion[+CC[N, E[X] <: EdgeLikeIn[X]] <: mutable.Graph[N, E] with mutable.GraphLike[N, E, CC]]
+trait MutableGraphCompanion[+CC[N, E[+X] <: EdgeLikeIn[X]] <: mutable.Graph[N, E] with mutable.GraphLike[N, E, CC]]
     extends GraphCoreCompanion[CC] {
-  override def newBuilder[N, E[X] <: EdgeLikeIn[X]](implicit edgeT: ClassTag[E[N]],
-                                                    config: Config): Builder[Param[N, E], CC[N, E] @uncheckedVariance] =
-    ??? //new GraphBuilder[N, E, CC](this)(edgeT, config)
+  override def newBuilder[N, E[+X] <: EdgeLikeIn[X]](implicit edgeT: ClassTag[E[N]],
+                                                     config: Config): Builder[Param[N, E], CC[N, E]] =
+    new GraphBuilder[N, E, CC](this)(edgeT, config)
 }
-*/

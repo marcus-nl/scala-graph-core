@@ -456,6 +456,8 @@ trait GraphBase[N, E[+X] <: EdgeLikeIn[X]] extends Serializable { selfGraph =>
         yield n.value.toString + ": " + ((for (a <- n.diSuccessors) yield a.value) mkString ",")) mkString "\n"
 
     def draw(random: Random): NodeT
+
+    final override def diff(that: AnySet[NodeT]): NodeSetT = ??? //(this -- that).asInstanceOf[NodeSetT]
   }
 
   /** The node (vertex) set of this `Graph` commonly referred to as V(G).
@@ -681,6 +683,8 @@ trait GraphBase[N, E[+X] <: EdgeLikeIn[X]] extends Serializable { selfGraph =>
         case _                                => null.asInstanceOf[EdgeT]
       }
     }
+
+    final override def diff(that: AnySet[EdgeT]): EdgeSetT = ??? // (this -- that).asInstanceOf[EdgeSetT]
   }
 
   /** The edge set of this `Graph` commonly referred to as E(G).
