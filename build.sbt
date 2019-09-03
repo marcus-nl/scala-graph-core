@@ -17,3 +17,8 @@ libraryDependencies ++= List(
   "junit"          % "junit"      % "4.12"  % "test",
   "org.scalatest"  %% "scalatest" % "3.0.8" % "test"
 )
+
+ThisBuild / resolvers ++= Seq(
+  "NetBeans"         at "http://bits.netbeans.org/nexus/content/groups/netbeans/",
+  "gephi-thirdparty" at "https://raw.github.com/gephi/gephi/mvn-thirdparty-repo/"
+)
