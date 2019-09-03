@@ -260,7 +260,8 @@ trait AdjacencyListBase[
     }
   }
 
-  def edgeIterator: Iterator[EdgeT] = ??? /*new GroupIterator[EdgeT] {
+  def edgeIterator: Iterator[EdgeT] = ??? // nodes.iterator.flatMap(node => node.edges.iterator.filter(...why?))
+  /*new GroupIterator[EdgeT] {
     object Outer extends OutermostIterator[NodeT] {
       protected type I = NodeT
       protected val iterator                 = nodes.iterator

@@ -1,7 +1,7 @@
 package scalax.collection
 
 import language.higherKinds
-import collection.IterableOnce
+import collection.{IterableOnce, SetOps}
 import scala.reflect.ClassTag
 
 import GraphPredef.{EdgeLikeIn, InnerEdgeParam, InnerNodeParam, OuterEdge, OuterNode, Param}
@@ -27,8 +27,9 @@ import config.GraphConfig
   */
 trait GraphLike[N,
                 E[+X] <: EdgeLikeIn[X],
-                +This[NN, EE[+XX] <: EdgeLikeIn[XX]] <: GraphLike[NN, EE, This] with AnySet[Param[NN, EE]] with Graph[NN, EE]] // TODO is dit niet dubbelop?
-    extends Set[Param[N, E]]
+                +This[NN, EE[+XX] <: EdgeLikeIn[XX]] <: GraphLike[NN, EE, This] with AnySet[Param[NN, EE]] with Graph[NN, EE]]
+    extends AnySet[Param[N, E]]
+    with SetOps[Param[N, E], AnySet, This[N, E]]
     with GraphTraversal[N, E]
     with GraphBase[N, E]
     with GraphDegree[N, E] {
@@ -53,6 +54,10 @@ trait GraphLike[N,
   val graphCompanion: GraphCompanion[This]
   protected type Config <: GraphConfig
   implicit def config: graphCompanion.Config with Config
+
+  override def empty = graphCompanion.empty
+  override protected def fromSpecific(coll: IterableOnce[Param[N, E]]) = ??? // graphCompanion.from(...toOuterNodes, ...toOuterEdges)
+  override protected def newSpecificBuilder = graphCompanion.newBuilder
 
   override def stringPrefix: String = "Graph"
 
@@ -308,10 +313,10 @@ trait GraphLike[N,
   /** Creates a new supergraph with an additional node or edge, unless the
     *  node or edge passed is already present.
     *
-    *  This method purely wraps `+(node: N)` respectively `+(edge: E[N])`
+    *  This method purely wraps `+(node: N)` respectively `+#(edge: E[N])`
     *  granting the same behavior.
     *
-    *  @param elem the wrapped node or edge to be added; ; if `elem` is of type N,
+    *  @param elem the wrapped node or edge to be added; if `elem` is of type N,
     *         the wrapped object is added to the node set otherwise to the edge set.
     *  @return a new supergraph containing all nodes and edges of this graph
     *          plus `elem`.
@@ -323,7 +328,8 @@ trait GraphLike[N,
     case e: InnerEdgeParam[N, E, _, E] => this +# e.asEdgeT[N, E, ThisGraph](thisGraph).toOuter
   }
   override def concat(elems: IterableOnce[Param[N, E]]): This[N, E] = bulkOp(elems, isPlusPlus = true)
-  override def removedAll(elems: IterableOnce[Param[N, E]]): This[N, E] = bulkOp(elems, isPlusPlus = false)
+  override def --(elems: IterableOnce[Param[N, E]]): This[N, E] = bulkOp(elems, isPlusPlus = false)
+  override def diff(that: AnySet[Param[N, E]]): This[N, E] = ??? // TODO is this the same as --???
 
   /** Prepares and calls `plusPlus` or `minusMinus`. */
   final protected def bulkOp(elems: IterableOnce[Param[N, E]], isPlusPlus: Boolean): This[N, E] = {
@@ -370,7 +376,7 @@ trait GraphLike[N,
     */
   def -(node: N): This[N, E]
 
-  /** Creates a new subgraph consisting of all nodes and edges of this graph but `node`
+  /** Creates a new subgraph consisting of all nodes and edges of this graph except `node`
     *  which is conditionally removed from this graph. The removal only succeeds if the node
     *  is not incident with any edges or it is only incident with hooks.
     *
@@ -380,7 +386,7 @@ trait GraphLike[N,
     */
   def minusIsolated(node: N): This[N, E]
 
-  /** Creates a new subgraph consisting of all nodes and edges of this graph but `edge`.
+  /** Creates a new subgraph consisting of all nodes and edges of this graph except `edge`.
     * The node set remains unchanged.
     *
     *  @param edge the edge to be removed.
@@ -485,6 +491,12 @@ trait GraphLike[N,
       }
     nodePred orElse edgePred
   }
+
+  // TODO I don't see a way to have map return Graph[M, F] when B = Param[M, F]...
+  // override def map[B](f: Param[N, E] => B): AnySet[B] = ???
+
+  // TODO but we could do something like this instead
+  //def mapGraph[M,F](f: Param[N, E] => Param[M, F]): Graph[M, F] = this.view.map(f).to(Graph)
 }
 
 // ----------------------------------------------------------------------------
@@ -506,15 +518,16 @@ trait Graph[N, E[+X] <: EdgeLikeIn[X]] extends AnySet[Param[N, E]] with GraphLik
   * @author Peter Empen
   */
 object Graph extends GraphCoreCompanion[Graph] {
-  override def newBuilder[N, E[X] <: EdgeLikeIn[X]](implicit edgeT: ClassTag[E[N]], config: Config) =
-    ??? //immutable.Graph.newBuilder[N, E](edgeT, config)
+  override def newBuilder[N, E[+X] <: EdgeLikeIn[X]](implicit edgeT: ClassTag[E[N]], config: Config) =
+    immutable.Graph.newBuilder[N, E](edgeT, config)
   def empty[N, E[+X] <: EdgeLikeIn[X]](implicit edgeT: ClassTag[E[N]], config: Config = defaultConfig): Graph[N, E] =
-    ??? //immutable.Graph.empty[N, E](edgeT, config)
+    immutable.Graph.empty[N, E](edgeT, config)
   def from[N, E[+X] <: EdgeLikeIn[X]](nodes: Iterable[N] = Nil, edges: Iterable[E[N]])(
       implicit edgeT: ClassTag[E[N]],
       config: Config = defaultConfig): Graph[N, E] =
-    ??? //immutable.Graph.from[N, E](nodes, edges)(edgeT, config)
+    immutable.Graph.from[N, E](nodes, edges)(edgeT, config)
 /*
+  // TODO build from
   implicit def cbfUnDi[N, E[X] <: EdgeLikeIn[X]](implicit edgeT: ClassTag[E[N]], config: Config = defaultConfig) =
     new GraphCanBuildFrom[N, E]()(edgeT, config)
       .asInstanceOf[GraphCanBuildFrom[N, E] with CanBuildFrom[Graph[_, UnDiEdge], Param[N, E], Graph[N, E]]]
