@@ -149,7 +149,7 @@ trait TraverserImpl[N, E[+X] <: EdgeLikeIn[X]] {
       private def maxDepth =
         if (parameters.maxDepth > 0) parameters.maxDepth
         else java.lang.Integer.MAX_VALUE
-      /*
+      /* TODO implement without FilterMonadic
       private[this] def sorted[A <: InnerElem with B, B <: InnerElem: reflect.ClassTag](
           set: FilterMonadic[A, AnySet[A]],
           maxOrEst: Int, // maximum size of set or negative for an estimate

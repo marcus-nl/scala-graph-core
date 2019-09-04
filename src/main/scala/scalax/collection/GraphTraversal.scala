@@ -154,14 +154,14 @@ trait GraphTraversal[N, E[+X] <: EdgeLikeIn[X]] extends GraphBase[N, E] {
       override protected val toA: NodeT => A)(implicit override val layerOrdering: NodeOrdering = NodeOrdering.None)
       extends AbstractTopologicalOrder[A, A] {
 
-    override def iterator = ???
-/*
+    override def iterator = ??? //layers.flatMap(layer => ordered(layer.nodes)).map(toA)
+    /* TODO replace foreach with iterator
     def foreach[U](f: A => U): Unit =
       for {
         layer <- layers
         node  <- ordered(layer.nodes)
       } f(toA(node))
-*/
+    */
     def withLayerOrdering(newOrdering: NodeOrdering): TopologicalOrder[A] =
       new TopologicalOrder(layers, toA)(newOrdering)
 
@@ -184,11 +184,10 @@ trait GraphTraversal[N, E[+X] <: EdgeLikeIn[X]] extends GraphBase[N, E] {
       extends AbstractTopologicalOrder[A, (Int, Iterable[A])] {
 
     override def iterator = ??? //layers.map(layer => layer.index -> toIterable2(layer.nodes)).iterator
-
-/*  TODO needed to override?
+    /* TODO replace foreach with iterator
     def foreach[U](f: Tuple2[Int, Iterable[A]] => U): Unit =
       for (layer <- layers) f(layer.index -> toIterable(layer.nodes))
-*/
+    */
     def withLayerOrdering(newOrdering: NodeOrdering): LayeredTopologicalOrder[A] =
       new LayeredTopologicalOrder(layers, toA)(newOrdering)
 
@@ -197,7 +196,7 @@ trait GraphTraversal[N, E[+X] <: EdgeLikeIn[X]] extends GraphBase[N, E] {
 
     def toLayered: LayeredTopologicalOrder[A] = this
 
-    // simpler alternative?
+    // TODO simpler alternative? will not expose `layers`
     private def toIterable2(iSeq: IndexedSeq[NodeT]): Iterable[A] = ordered(iSeq).map(toA)
     // O(1) view to avoid exposure of the possibly mutable `layers`
     private def toIterable(iSeq: IndexedSeq[NodeT]): Iterable[A] = new AbstractIterable[A] {
@@ -260,7 +259,9 @@ trait GraphTraversal[N, E[+X] <: EdgeLikeIn[X]] extends GraphBase[N, E] {
 
     def startNode: NodeT
     def endNode: NodeT
-/*
+
+    override def iterator: Iterator[InnerElem] = ??? // something like nodes.iterator.intersperse(edges.iterator)
+    /* TODO replace foreach with iterator
     def foreach[U](f: InnerElem => U): Unit = {
       f(nodes.head)
       val edges = this.edges.toIterator
@@ -270,9 +271,7 @@ trait GraphTraversal[N, E[+X] <: EdgeLikeIn[X]] extends GraphBase[N, E] {
         f(n)
       }
     }
-*/
-    override def iterator: Iterator[InnerElem] = ??? // something like nodes.iterator.intersperse(edges.iterator)
-
+    */
     /** Returns whether the nodes and edges of this walk are valid with respect
       *  to this graph. $SANECHECK */
     def isValid: Boolean = {

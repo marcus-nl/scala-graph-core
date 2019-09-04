@@ -2,8 +2,8 @@ package scalax.collection
 package generic
 
 import language.higherKinds
+import collection.generic.CanBuildFrom
 import collection.mutable.Builder
-import scala.collection.generic.CanBuildFrom
 import scala.reflect.ClassTag
 
 import GraphPredef.{EdgeLikeIn, Param}
@@ -91,8 +91,8 @@ trait GraphCompanion[+CC[N, E[+X] <: EdgeLikeIn[X]] <: Graph[N, E] with GraphLik
   /* TODO build from
   class GraphCanBuildFrom[N, E[+X] <: EdgeLikeIn[X]](implicit edgeT: ClassTag[E[N]], config: Config)
       extends CanBuildFrom[Coll, Param[N, E], CC[N, E]] {
-//    def apply(from: Coll) = newBuilder[N, E]
-//    def apply()           = newBuilder[N, E]
+    def apply(from: Coll) = newBuilder[N, E]
+    def apply()           = newBuilder[N, E]
     override def fromSpecific(from: Coll)(it: IterableOnce[Param[N, E]]) = ???
     override def newBuilder(from: Coll) = ???
   } */

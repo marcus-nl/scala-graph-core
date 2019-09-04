@@ -334,12 +334,15 @@ trait GraphTraversalImpl[N, E[+X] <: EdgeLikeIn[X]]
         InnerNodeTraverser(root, parameters withDirection Successors, subgraphNodes, subgraphEdges, ordering)
       withHandle() { implicit handle =>
         (for (node <- nodes if !node.visited && subgraphNodes(node))
+          // TODO value Runner is not a member of GraphTraversalImpl.this.InnerNodeTraverser
           yield traverser.withRoot(node).Runner(noNode, empty).dfsTarjan(Some(handle))).flatten
       }
-    }*/
-
-    //def foreach[U](f: Component => U): Unit = components foreach f
+    }
+    */
     override def iterator = ??? // components
+    /* TODO replace foreach with iterator
+    def foreach[U](f: Component => U): Unit = components foreach f
+    */
   }
 
   def strongComponentTraverser(parameters: Parameters = Parameters(),
@@ -581,8 +584,9 @@ trait GraphTraversalImpl[N, E[+X] <: EdgeLikeIn[X]]
                                                                   enclosed: Array[Option[S]] = Array[Option[S]](None, None))
       extends Iterable[NodeT] {
 
+    // TODO replace foreach with iterator
     //@inline def foreach[U](f: NodeT => U): Unit = source foreach (s => f(s.node))
-    override def iterator = ???
+    override def iterator = ??? //source.map(_.node).iterator
 
     override def stringPrefix = "Nodes"
 
@@ -592,7 +596,8 @@ trait GraphTraversalImpl[N, E[+X] <: EdgeLikeIn[X]]
     @inline override def last: NodeT = enclosed(1).fold(ifEmpty = s.head.node)(_.node)
 
     def reverse: Iterable[NodeT] = new AbstractIterable[NodeT] {
-      /*
+      override def iterator = ???
+      /* TODO replace foreach with iterator
       def foreach[U](f: NodeT => U): Unit = {
         def fT(elem: S): Unit = f(elem.node)
         def end(i: Int): Unit = enclosed(i) foreach fT
@@ -601,7 +606,6 @@ trait GraphTraversalImpl[N, E[+X] <: EdgeLikeIn[X]]
         end(0)
       }
       */
-      override def iterator = ???
     }
 
     private lazy val upper: Int = takeWhile.fold(ifEmpty = s.size) { pred =>
@@ -611,7 +615,8 @@ trait GraphTraversalImpl[N, E[+X] <: EdgeLikeIn[X]]
     }
 
     private[GraphTraversalImpl] lazy val source: Iterable[S] = new AbstractIterable[S] {
-      override def iterator = ??? /*
+      override def iterator = ???
+      /* TODO replace foreach with iterator
       def foreach[U](f: S => U): Unit = {
         enclosed(0) foreach f
         var i    = upper
@@ -646,8 +651,9 @@ trait GraphTraversalImpl[N, E[+X] <: EdgeLikeIn[X]]
       stack
     }
 
+    // TODO replace foreach with iterator
     //@inline def foreach[U](f: T => U): Unit = s foreach f
-    override def iterator = ???
+    override def iterator = ??? // s
   }
 
   /** Path based on the passed collection of nodes with lazy evaluation of edges.
@@ -676,7 +682,7 @@ trait GraphTraversalImpl[N, E[+X] <: EdgeLikeIn[X]]
       val buf = new ArrayBuffer[EdgeT](nodes.size) {
         override def stringPrefix = "Edges"
       }
-      (nodes.head /: nodes.tail) { (prev: NodeT, n: NodeT) =>
+      nodes.tail.foldLeft(nodes.head) { (prev: NodeT, n: NodeT) =>
         buf += selectEdge(prev, n)
         n
       }
@@ -724,7 +730,7 @@ trait GraphTraversalImpl[N, E[+X] <: EdgeLikeIn[X]]
         override def stringPrefix = "Edges"
       }
       val isDiGraph = thisGraph.isDirected
-      (nodes.head /: nodes.source.tail) { (prev: NodeT, elem: CycleStackElem) =>
+      nodes.source.tail.foldLeft(nodes.head) { (prev: NodeT, elem: CycleStackElem) =>
         val CycleStackElem(n, conn) = elem
         def get(edges: Iterable[EdgeT], pred: EdgeFilter) = {
           def ok(e: EdgeT): Boolean = !multi.contains(e) && edgeFilter(e) && pred(e)
@@ -744,7 +750,7 @@ trait GraphTraversalImpl[N, E[+X] <: EdgeLikeIn[X]]
         multi += edge
         n
       }
-      multi.clear
+      multi.clear()
       buf
     }
   }

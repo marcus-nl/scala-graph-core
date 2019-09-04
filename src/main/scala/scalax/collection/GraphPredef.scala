@@ -256,11 +256,11 @@ object GraphPredef {
   implicit final class HyperEdgeAssoc[NOld](val e: EdgeLikeIn[NOld]) extends AnyVal {
     def ~[N >: NOld](n: N)(implicit endpointsKind: CollectionKind = Bag): HyperEdge[N] = {
       require(e.isUndirected)
-      ??? //HyperEdge.from[N](NodeProduct(e.iterator.toBuffer += n))
+      HyperEdge.from[N](NodeProduct(e.iterator.toBuffer += n))
     }
     def ~>[N >: NOld](n: N)(implicit targetsKind: CollectionKind = Bag): DiHyperEdge[N] = {
       require(e.isDirected)
-      ??? //DiHyperEdge.from[N](NodeProduct(e.iterator.toBuffer += n))
+      DiHyperEdge.from[N](NodeProduct(e.iterator.toBuffer += n))
     }
   }
 }
